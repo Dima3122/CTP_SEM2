@@ -1,0 +1,10 @@
+﻿
+[submodule "external/CLI11"]
+	path = external/CLI11
+	url = https://github.com/CLIUtils/CLI11
+[submodule "external/googletest"]
+	path = external/googletest
+	url = https://github.com/google/googletest
+[submodule "external/clangformat-cmake"]
+	path = external/clangformat-cmake
+	url = https://github.com/zemasoft/clangformat-cmake
