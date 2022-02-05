@@ -1,5 +1,5 @@
 add_executable(main project/main.cpp)
-target_include_directories(main PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../lib/lib)
-target_link_libraries(main lib)
-
+target_include_directories(main PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../lib)
+target_link_libraries(main time)
+target_link_libraries(main smartptr)
 set_compile_options(main)
