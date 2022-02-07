@@ -1,26 +1,31 @@
 #include <ctime>
 #include <ostream>
+#include "Time.hpp"
 
 namespace lab1::literals
 {
-    int operator"" _d(Time Time)
+    int operator"" _D(long double n)
     {
-        tm *ltm = localtime(&Time.now);
+        time_t time = (time_t)n;
+        tm *ltm = localtime(&time);
         return ltm->tm_mday;
     }
-    int operator"" _h(Time Time)
+    int operator""_H(long double n)
     {
-        tm *ltm = localtime(&Time.now);
+        time_t time = (time_t)n;
+        tm *ltm = localtime(&time);
         return ltm->tm_hour;
     }
-    int operator"" _m(Time Time)
+    int operator"" _M(long double n)
     {
-        tm *ltm = localtime(&Time.now);
+        time_t time = (time_t)n;
+        tm *ltm = localtime(&time);
         return ltm->tm_min;
     }
-    int operator"" _s(Time Time)
+    int operator"" _S(long double n)
     {
-        tm *ltm = localtime(&Time.now);
+        time_t time = (time_t)n;
+        tm *ltm = localtime(&time);
         return ltm->tm_sec;
     }
 }

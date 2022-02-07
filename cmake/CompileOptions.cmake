@@ -1,8 +1,8 @@
 function(set_compile_options target_name)
-  if(MSVS)
+  if(MSVC)
     target_compile_options(${target_name} PRIVATE /W4 /Wx)
   else()
-    target_compile_options(${target_name} PRIVATE -Wall -Wextra -Werror -pedantic)
+    target_compile_options(${target_name} PRIVATE -Wall -Wextra -Werror -pedantic -Werror=literal-suffix)
   endif()
 
   set_target_properties(
