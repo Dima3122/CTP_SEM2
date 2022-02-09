@@ -2,6 +2,9 @@
 #include <gtest/gtest.h>
 #include <smartptr/UniquePtr.cpp>
 #include <smartptr/SharedPtr.cpp>
+#include <soundex/soundex.hpp>
+#include <vector>
+#include <string>
 
 TEST(test_Time, operator_subtraction)
 {
@@ -41,20 +44,9 @@ TEST(test_UniquePtr, pointer_get)
 	ASSERT_EQ(pointer.get(), 5);
 }
 
-TEST(test_UniquePtr, point_pointer)
+TEST(test_soundex, readData)
 {
-	lab2::UniquePtr<int> pointer = new int(5);
-	ASSERT_EQ(*pointer, 5);
-}
-
-TEST(test_SharedPtr, pointer_get)
-{
-	lab2::SharedPtr<int> pointer = new int(5);
-	ASSERT_EQ(pointer.get(), 5);
-}
-
-TEST(test_SharedPtr, point_pointer)
-{
-	lab2::SharedPtr<int> pointer = new int(5);
-	ASSERT_EQ(*pointer, 5);
+	lab3::soundex sd;
+	std::string str = sd.soundex_hash("hfasdsahjtq");
+	ASSERT_EQ(str, "h232");
 }
