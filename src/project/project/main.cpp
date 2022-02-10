@@ -4,6 +4,8 @@
 #include <unistd.h>
 #include <time/CustomLiterals.hpp>
 #include <soundex/soundex.hpp>
+#include <MyList/MyList.cpp>
+
 int main()
 {
     //lab1
@@ -41,5 +43,15 @@ int main()
 		return st1.hash < st2.hash;
 	});
 	std::cout << res[0].hash << std::endl;
+    MyList<int> list;
+	list.push_back(15);
+	list.push_back(30);
+	list.push_back(45);
+	list.push_back(60);
+	list.push_back(75);
+	list.push_back(90);
+	list.push_back(115);
+	list.insert(60, 7, 4);
+	std::cout << list.check() << std::endl;
     return 0;
 }
