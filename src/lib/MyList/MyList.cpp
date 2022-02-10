@@ -2,7 +2,6 @@
 
 namespace lab4
 {
-
 	template <class T>
 	class MyList
 	{
@@ -20,7 +19,6 @@ namespace lab4
 		void removeAt(int index);
 		void pop_back();
 		bool check();
-
 	private:
 		int Size;
 		Node<T> *head;
@@ -28,7 +26,7 @@ namespace lab4
 
 	template <class T>
 	MyList<T>::MyList()
-	{
+	{	
 		Size = 0;
 		head = nullptr;
 	}

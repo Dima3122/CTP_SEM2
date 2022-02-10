@@ -3,6 +3,7 @@
 #include <smartptr/UniquePtr.cpp>
 #include <smartptr/SharedPtr.cpp>
 #include <soundex/soundex.hpp>
+#include <MyList/MyList.cpp>
 #include <vector>
 #include <string>
 
@@ -49,4 +50,18 @@ TEST(test_soundex, readData)
 	lab3::soundex sd;
 	std::string str = sd.soundex_hash("hfasdsahjtq");
 	ASSERT_EQ(str, "h232");
+}
+
+TEST(test_MyList, test_list)
+{
+	lab4::MyList<int> list;
+	list.push_back(15);
+	list.push_back(30);
+	list.push_back(45);
+	list.push_back(60);
+	list.push_back(75);
+	list.push_back(90);
+	list.push_back(115);
+	list.insert(60, 7, 4);
+	ASSERT_EQ(list.check(), true);
 }
