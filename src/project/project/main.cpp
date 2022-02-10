@@ -43,7 +43,7 @@ int main()
 		return st1.hash < st2.hash;
 	});
 	std::cout << res[0].hash << std::endl;
-    MyList<int> list;
+    lab4::MyList<int> list;
 	list.push_back(15);
 	list.push_back(30);
 	list.push_back(45);
