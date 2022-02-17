@@ -13,10 +13,10 @@ namespace lab1
         return now;
     }
 
-    TimeSpan Time::operator -(const Time& other)
+    TimeSpan Time::operator-(const Time &other)
     {
-        TimeSpan span; 
-        span.set_timeSpan(other.now - this->now ); 
+        TimeSpan span;
+        span.set_timeSpan(other.now - this->now);
         return span;
     }
 
@@ -25,20 +25,20 @@ namespace lab1
         this->now = now;
     }
 
-    Time Time::operator -(const TimeSpan& other)
+    Time Time::operator-(const TimeSpan &other)
     {
         Time time;
         time.set_now(this->get_now() - other.get_timeSpan());
         return time;
     }
 
-    Time Time::operator+(const TimeSpan& other)
+    Time Time::operator+(const TimeSpan &other)
     {
         Time time;
         time.set_now(this->get_now() + other.get_timeSpan());
         return time;
     }
-
+    
     std::ostream &operator<<(std::ostream &out, const Time &Time)
     {
         tm *ltm = localtime(&Time.now);

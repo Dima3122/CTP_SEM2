@@ -8,15 +8,19 @@ namespace lab1
     {
     private:
         time_t timeSpan;
+
     public:
         TimeSpan();
-        //TimeSpan(Time Start, Time The_End);
+        // TimeSpan(Time Start, Time The_End);
         ~TimeSpan() = default;
-        
+
         time_t get_timeSpan() const;
         void set_timeSpan(time_t time_span);
-        // TimeSpan operator -(const Time& other);
-        friend std::ostream& operator <<(std::ostream& out, const TimeSpan& Time);
+
+        TimeSpan operator+(const TimeSpan &other);
+        TimeSpan operator-(const TimeSpan &other);
+
+        friend std::ostream &operator<<(std::ostream &out, const TimeSpan &Time);
     };
-    std::ostream& operator <<(std::ostream& out, const TimeSpan& Time);
+    std::ostream &operator<<(std::ostream &out, const TimeSpan &Time);
 }

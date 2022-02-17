@@ -18,9 +18,10 @@ namespace lab1
 
         friend std::ostream& operator <<(std::ostream& out, const Time& Time);
         
-        TimeSpan operator -(const Time& other);
         Time operator +(const TimeSpan& other);
         Time operator -(const TimeSpan& other);
+        TimeSpan operator -(const Time& other);
+
     };
     std::ostream& operator <<(std::ostream& out, const Time& Time);
 }

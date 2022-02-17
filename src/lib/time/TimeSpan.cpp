@@ -14,6 +14,18 @@ namespace lab1
     {
         this->timeSpan = time_span;
     }
+    TimeSpan TimeSpan::operator+(const TimeSpan &other)
+    {
+        TimeSpan timespan;
+        timespan.set_timeSpan(this->get_timeSpan() + other.get_timeSpan());
+        return timespan;
+    }
+    TimeSpan TimeSpan::operator-(const TimeSpan &other)
+    {
+        TimeSpan timespan;
+        timespan.set_timeSpan(this->get_timeSpan() - other.get_timeSpan());
+        return timespan;
+    }
     std::ostream &operator<<(std::ostream &out, const TimeSpan &TimeSpan)
     {
         tm *ltm = localtime(&TimeSpan.timeSpan);
