@@ -19,6 +19,40 @@ namespace lab4
 		void removeAt(int index);
 		void pop_back();
 		bool check();
+		
+		class Iterator
+		{
+		private:
+			T* cur;
+		public:
+			Iterator(T* first) : cur(first){}
+			
+			T& operator+ (int n) { return *(cur + n);}
+			T& operator- (int n) { return *(cur - n);}
+
+			T& operator++ (int) { return *cur++; }
+			T& operator-- (int) { return *cur--;}
+			T& operator++ () { return *++cur;}
+			T& operator-- () { return *--cur;}
+
+			bool operator!= (const Iterator& it) {return cur != it.cur;}
+			bool operator== (const Iterator& it) {return cur == it.cur;}
+			T& operator* () {return *cur;}
+		};		
+		Iterator begin() { return head; }
+		Iterator end() 
+		{
+			if (head == nullptr)
+			{
+				return nullptr;
+			}
+			Node<T> *current = this->head;
+			while (current->pNext != nullptr)
+			{
+				current = current->pNext;
+			}	
+			return current;
+		}
 	private:
 		int Size;
 		Node<T> *head;
