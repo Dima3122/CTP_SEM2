@@ -39,12 +39,6 @@ TEST(test_Time, operator_subtraction_other)
 	ASSERT_EQ(time, time3.get_now());
 }
 
-TEST(test_UniquePtr, pointer_get)
-{
-	lab2::UniquePtr<int> pointer = new int(5);
-	ASSERT_EQ(pointer.get(), 5);
-}
-
 TEST(test_soundex, readData)
 {
 	lab3::soundex sd;

@@ -2,59 +2,111 @@
 
 namespace lab2
 {
-    template <class T>
+    template <typename T>
     class SharedPtr
     {
     private:
-        inline static size_t count = 0;
-        T *ptr;
+        T *Ptr;
+        size_t *RefCount;
+
+        void clean()
+        {
+            *RefCount = *RefCount - 1;
+            if (*RefCount <= 0)
+            {
+                if (Ptr != nullptr)
+                {
+                    delete Ptr;
+                }
+                delete RefCount;
+            }
+        }
+
     public:
-        SharedPtr(T *ptr);
-        SharedPtr(const SharedPtr &&obj);
-        SharedPtr(SharedPtr &obj);
-        SharedPtr(const T *obj);
-        ~SharedPtr();
+        SharedPtr() 
+        {
+            Ptr = nullptr;
+            RefCount = new size_t(0);
+        }
 
-        T &operator*() { return *ptr; }
-        T &operator->() { return *ptr; } //???
-        T &get() { return *ptr; }
+        SharedPtr(const T *const ptr)
+        {
+            Ptr = (T *)ptr;
+            RefCount = new size_t(0);
+            if (Ptr != nullptr)
+            {
+                *RefCount = 1;
+            }
+        }
 
-        size_t get_count() { return count; }
-        void reset(const T *const ptr);
+        SharedPtr(const SharedPtr &obj)
+        {
+            Ptr = obj.Ptr;
+            RefCount = obj.RefCount;
+            if (Ptr != nullptr)
+            {
+                *RefCount = *RefCount + 1;
+            }
+        }
+
+        SharedPtr(const SharedPtr &&obj)
+        {
+            Ptr = obj.Ptr;
+            RefCount = obj.RefCount;
+            obj.Ptr = nullptr;
+            obj.RefCount = nullptr;
+        }
+
+        ~SharedPtr() { clean(); }
+
+        SharedPtr &operator=(const SharedPtr &obj)
+        {
+            clean();
+            Ptr = obj.Ptr;
+            RefCount = obj.RefCount;
+            if (Ptr != nullptr)
+            {
+                *RefCount++;
+            }
+        }
+
+        SharedPtr &operator=(SharedPtr &&obj)
+        {
+            clean();
+            Ptr = obj.Ptr;
+            RefCount = obj.RefCount;
+            obj.Ptr = nullptr;
+            obj.RefCount = nullptr;
+        }
+
+        T &operator*() { return *Ptr; }
+        T *operator->() { return Ptr; }
+        T *get() { return Ptr; }
+
+        size_t use_count() { return *RefCount; }
+
+        bool unique()
+        {
+            if (*RefCount == 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        void reset(const T *const ptr = nullptr)
+        {
+            clean();
+            size_t *NewRefCount = new size_t(0);
+            Ptr = (T *)ptr;
+            if (Ptr != nullptr)
+            {
+                *NewRefCount = *NewRefCount + 1;
+            }
+            RefCount = NewRefCount;
+        }
     };
-    template<class T>
-    void SharedPtr<T>::reset(const T *const ptr)
-    {
-        this->ptr = (T *)ptr;
-    }
-    template <class T>
-    SharedPtr<T>::SharedPtr(T *ptr)
-    {
-        this->ptr = ptr;
-        count++;
-    }
-    template <class T>
-    SharedPtr<T>::SharedPtr(const SharedPtr &&obj)
-    {
-        this->ptr = obj->ptr;
-        obj->ptr = nullptr;
-    }
-    template <class T>
-    SharedPtr<T>::SharedPtr(SharedPtr &obj)
-    {
-        this->ptr = obj->ptr;
-        obj->ptr = nullptr;
-    }
-    template <class T>
-    SharedPtr<T>::SharedPtr(const T *obj)
-    {
-        this->ptr = obj;
-        this->count++;
-    }
-    template <class T>
-    SharedPtr<T>::~SharedPtr()
-    {
-        delete ptr;
-        count--;
-    }
 }

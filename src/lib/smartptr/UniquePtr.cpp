@@ -2,28 +2,63 @@
 
 namespace lab2
 {
-    template<class T>
+    template <typename T>
     class UniquePtr
     {
     private:
-        T *ptr;
+        T *Ptr = nullptr;
+
     public:
-        UniquePtr(T *ptr);
-        ~UniquePtr();
+        UniquePtr() = default;
+        UniquePtr(const T *const ptr)
+        {
+            Ptr = (T *)ptr;
+        }
+        UniquePtr(const UniquePtr &obj) = delete;
+        UniquePtr(UniquePtr &&obj)
+        {
+            Ptr = obj.Ptr;
+            obj.Ptr = nullptr;
+        }
 
-        T& operator *(){ return *ptr;}
-        T& operator ->(){ return *ptr;}//???
-        T& get(){ return *ptr;}//???
+        ~UniquePtr()
+        {
+            if (Ptr != nullptr)
+            {
+                delete Ptr;
+            }
+        }
+
+        UniquePtr operator=(const UniquePtr &obj) = delete;
+
+        UniquePtr operator=(UniquePtr &&obj)
+        {
+            if (this == &obj)
+            {
+                return *this;
+            }
+            if (Ptr != nullptr)
+            {
+                delete Ptr;
+            }
+            Ptr = obj.Ptr;
+            obj.Ptr = nullptr;
+            return *this;
+        }
+
+        T &operator*() { return *Ptr; }
+
+        T *operator->() { return Ptr; }
+
+        T *get() { return Ptr; }
+
+        void reset(const T *const ptr = nullptr)
+        {
+            if (Ptr != nullptr)
+            {
+                delete Ptr;
+            }
+            Ptr = (T *)ptr;
+        }
     };
-
-    template<class T>
-    UniquePtr<T>::UniquePtr(T *ptr)
-    {
-        this->ptr = ptr;
-    }
-    template<class T>
-    UniquePtr<T>::~UniquePtr()
-    {
-        delete ptr;
-    }
 }
