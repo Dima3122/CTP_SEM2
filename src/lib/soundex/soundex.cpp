@@ -62,7 +62,7 @@ namespace lab3
     std::string soundex::soundex_hash(std::string string)
     {
     	std::string res;
-    	if (str.empty())
+    	if (string.empty())
     	{
             std::cout << "Строка пустая" << std::endl;
         }
