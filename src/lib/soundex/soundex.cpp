@@ -59,7 +59,7 @@ namespace lab3
     	return sarr;
     }
 
-    std::string soundex::soundex_hash(std::string_view str)
+    std::string soundex::soundex_hash(std::string string)
     {
     	std::string res;
     	if (str.empty())
@@ -68,8 +68,7 @@ namespace lab3
         }
         else
         {
-    		char fisrt = str[0];
-    		std::string string(str);
+    		char fisrt = string[0];
     		removeCharsFromString(string, "hwaeiouy");
     		replaceCharsFromString(string, "bfpv", '1');
     		replaceCharsFromString(string, "cgjkqsxz", '2');

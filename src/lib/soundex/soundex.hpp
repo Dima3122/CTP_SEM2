@@ -23,6 +23,6 @@ namespace lab3
     	soundex() = default;
     	~soundex() = default;
     	std::vector<std::string> readData(const std::string& filename, const std::string& csvdelimiter);
-    	std::string soundex_hash(std::string_view str);
+    	std::string soundex_hash(std::string str);
     };
 }

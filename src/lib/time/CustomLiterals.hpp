@@ -4,28 +4,23 @@
 
 namespace lab1::literals
 {
-    int operator"" _D(long double n)
-    {
-        time_t time = (time_t)n;
-        tm *ltm = localtime(&time);
-        return ltm->tm_mday;
-    }
-    int operator""_H(long double n)
-    {
-        time_t time = (time_t)n;
-        tm *ltm = localtime(&time);
-        return ltm->tm_hour;
-    }
-    int operator"" _M(long double n)
-    {
-        time_t time = (time_t)n;
-        tm *ltm = localtime(&time);
-        return ltm->tm_min;
-    }
-    int operator"" _S(long double n)
-    {
-        time_t time = (time_t)n;
-        tm *ltm = localtime(&time);
-        return ltm->tm_sec;
-    }
+    int operator"" _D(unsigned long long day) {
+    int inSeconds;
+    inSeconds = day * 24 * 60 * 60;
+    return inSeconds;
+}
+
+int operator"" _H(unsigned long long hour) {
+    int inSeconds;
+    inSeconds = hour * 60 * 60;
+    return inSeconds;
+}
+
+int operator"" _M(unsigned long long minute) {
+    int inSeconds;
+    inSeconds = minute * 60;
+    return inSeconds;
+}
+
+int operator"" _S(unsigned long long second) { return second; }
 }
