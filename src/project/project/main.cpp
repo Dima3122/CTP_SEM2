@@ -6,6 +6,7 @@
 #include <time/CustomLiterals.hpp>
 #include <soundex/soundex.hpp>
 #include <MyList/MyList.cpp>
+#include <CourseWork/MyVector.cpp>
 
 int main()
 {
@@ -32,23 +33,23 @@ int main()
     // std::cout << piont.get() << std::endl;
     // lab2::SharedPtr<double> p(new double(5.4));
     //lab3
-    // lab3::soundex sd;
-	// std::vector<lab3::MyStruct> res;
-	// auto sarr = sd.readData("names2020.csv",";");
-	// lab3::MyStruct myStruct;
-	// for (auto var : sarr)
-	// {
-	// 	myStruct.elems = var;
-	// 	myStruct.hash = sd.soundex_hash(var);
-	// 	res.push_back(myStruct);
-	// }
-	// std::sort(res.begin(), res.end(), [](const lab3::MyStruct& st1, const lab3::MyStruct& st2)
-	// {
-	// 	return st1.hash < st2.hash;
-	// });
-	// std::cout << res[0].hash << std::endl;
-    // lab4::MyList<int> list;
-	// list.push_back(15);
+    lab3::soundex sd;
+	std::vector<lab3::MyStruct> res;
+	auto sarr = sd.readData("names2020.csv",";");
+	lab3::MyStruct myStruct;
+	for (auto var : sarr)
+	{
+		myStruct.elems = var;
+		myStruct.hash = sd.soundex_hash(var);
+		res.push_back(myStruct);
+	}
+	std::sort(res.begin(), res.end(), [](const lab3::MyStruct& st1, const lab3::MyStruct& st2)
+	{
+		return st1.hash < st2.hash;
+	});
+	std::cout << res[0].hash << std::endl;
+    //lab4::MyList<int> list;
+	//list.push_back(15);
 	// list.push_back(30);
 	// list.push_back(45);
 	// list.push_back(60);
@@ -57,6 +58,7 @@ int main()
 	// list.push_back(115);
 	// list.insert(60, 7, 4);
 	// std::cout << list.check() << std::endl;
-
+    MyVector::MyVector<int> vec;
+    vec.pushBack(521);
     return 0;
 }

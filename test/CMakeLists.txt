@@ -7,6 +7,7 @@ target_link_libraries(test PRIVATE time)
 target_link_libraries(test PRIVATE smartptr)
 target_link_libraries(test PRIVATE soundex)
 target_link_libraries(test PRIVATE MyList)
+target_link_libraries(test PRIVATE MyVector)
 target_link_libraries(
     test PRIVATE
     gtest gtest_main

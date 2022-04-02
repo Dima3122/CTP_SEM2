@@ -4,6 +4,7 @@
 #include <smartptr/SharedPtr.cpp>
 #include <soundex/soundex.hpp>
 #include <MyList/MyList.cpp>
+#include <CourseWork/MyVector.cpp>
 #include <vector>
 #include <string>
 
@@ -58,4 +59,44 @@ TEST(test_MyList, test_list)
 	list.push_back(115);
 	list.insert(60, 7, 4);
 	ASSERT_EQ(list.check(), true);
+}
+
+TEST(test_MyVector, test_MyVector_pushBack)
+{
+	MyVector::MyVector<int> vec;
+	for (int i = 0; i < 10; i++)
+	{
+		vec.pushBack(i);
+	}
+	ASSERT_EQ(vec.size(), 10);
+}
+
+TEST(test_MyVector, test_MyVector_remove)
+{
+	MyVector::MyVector<int> vec;
+	for (int i = 0; i < 10; i++)
+	{
+		vec.pushBack(i);
+	}
+	for (int i = 0; i < 5; i++)
+	{
+		vec.remove(0);
+	}
+	
+	ASSERT_EQ(vec.size(), 5);
+}
+
+TEST(test_MyVector, test_MyVector_popBack)
+{
+	MyVector::MyVector<int> vec;
+	for (int i = 0; i < 10; i++)
+	{
+		vec.pushBack(i);
+	}
+	for (int i = 0; i < 5; i++)
+	{
+		vec.pop_back();
+	}
+	
+	ASSERT_EQ(vec.size(), 5);
 }
