@@ -1,3 +1,5 @@
+#include <iostream>
+
 namespace lab4
 {
     template <class T>
@@ -9,7 +11,7 @@ namespace lab4
 
         Node(T data = T(), Node *pNext = nullptr)
         {
-            this->data = data;
+            this->data = std::move(data);
             this->pNext = pNext;
         }
     };

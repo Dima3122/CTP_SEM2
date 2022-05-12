@@ -2,18 +2,16 @@
 
 namespace MyVector
 {
-
 	template <typename T>
 	class MyVector
 	{
 	public:
 		MyVector()
 		{
-			Arr = new T[1];
-			Capacity = 1;
+			Capacity = 0;
 			Size = 0;
 		}
-		MyVector(MyVector &other)
+		MyVector(const MyVector &other)
 		{
 			if (this != &other)
 			{
@@ -21,8 +19,6 @@ namespace MyVector
 				Arr = other.Arr;
 				Size = other.Size;
 				Capacity = other.Capacity;
-				other.Arr = nullptr;
-				other.Size = other.Capacity = 0;
 			}
 		}
 		MyVector(MyVector &&other) noexcept
@@ -37,7 +33,7 @@ namespace MyVector
 				other.Size = other.Capacity = 0;
 			}
 		}
-		MyVector &operator=(MyVector &other)
+		MyVector &operator=(const MyVector &other)
 		{
 			if (this != &other)
 			{
@@ -45,8 +41,6 @@ namespace MyVector
 				Arr = other.Arr;
 				Size = other.Size;
 				Capacity = other.Capacity;
-				other.Arr = nullptr;
-				other.Size = other.Capacity = 0;
 			}
 			return *this;
 		}
@@ -80,35 +74,38 @@ namespace MyVector
 			{
 				Size--;
 			}
-			if (Capacity > Size * 2)
-			{
-				removeMemory();
-			}
 		}
 
 		void remove(size_t index)
 		{
-			if (index >= 0 && index <= Size)
+			for (size_t i = index + 1; i < Size; ++i)
 			{
-				if (Capacity > Size * 2)
-				{
-					removeMemory();
-				}
-				for (size_t i = index + 1; i < Size; ++i)
-				{
-					Arr[i - 1] = Arr[i];
-				}
-				--Size;
+				Arr[i - 1] = Arr[i];
 			}
+			--Size;
 		}
 
-		const T *begin() const { return &Arr[0]; }
-		const T *end() const { return &Arr[Size]; }
+		void shrink_to_fit()
+		{
+			Capacity = Size;
+			T *tmp = Arr;
+			Arr = new T[Capacity];
+			for (size_t i = 0; i < Size; ++i)
+			{
+				Arr[i] = std::move(tmp[i]);
+			}
+			delete[] tmp;
+		}
 
-		T *begin() { return &Arr[0]; }
-		T *end() { return &Arr[Size]; }
+		const T *begin() const { return Arr; }
+		const T *end() const { return Arr + Size; }
+
+		T *begin() { return Arr; }
+		T *end() { return Arr + Size; }
 
 		T &operator[](size_t index) { return Arr[index]; }
+		const T &operator[](size_t index) const { return Arr[index]; }
+
 		bool isEmpty() const { return Size == 0; }
 		size_t size() const { return Size; }
 		size_t capacity() const { return Capacity; }
@@ -118,26 +115,22 @@ namespace MyVector
 	private:
 		void addMemory()
 		{
-			Capacity *= 2;
-			T *tmp = Arr;
-			Arr = new T[Capacity];
-			for (size_t i = 0; i < Size; ++i)
+			if (Capacity == 0)
 			{
-				Arr[i] = tmp[i];
+				Arr = new T[1];
+				Capacity = 1;
 			}
-			delete[] tmp;
-		}
-
-		void removeMemory()
-		{
-			Capacity /= 2;
-			T *tmp = Arr;
-			Arr = new T[Capacity];
-			for (size_t i = 0; i < Size; ++i)
+			else
 			{
-				Arr[i] = tmp[i];
+				Capacity *= 2;
+				T *tmp = Arr;
+				Arr = new T[Capacity];
+				for (size_t i = 0; i < Size; ++i)
+				{
+					Arr[i] = std::move(tmp[i]);
+				}
+				delete[] tmp;
 			}
-			delete[] tmp;
 		}
 
 		T *Arr;
@@ -149,7 +142,7 @@ namespace MyVector
 	inline std::ostream &operator<<(std::ostream &os, const MyVector<T> &vec)
 	{
 		for (const T &val : vec)
-			os << val << " ";
+			os << val << ' ';
 		{
 			return os;
 		}

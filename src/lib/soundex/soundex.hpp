@@ -7,12 +7,6 @@
 
 namespace lab3
 {
-    struct MyStruct
-    {
-    	std::string hash;
-    	std::string elems;
-    };
-
     class soundex
     {
     private:

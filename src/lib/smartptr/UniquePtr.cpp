@@ -10,10 +10,7 @@ namespace lab2
 
     public:
         UniquePtr() = default;
-        UniquePtr(const T *const ptr)
-        {
-            Ptr = (T *)ptr;
-        }
+        UniquePtr(const T *const ptr) : Ptr((T *)ptr) { }
         UniquePtr(const UniquePtr &obj) = delete;
         UniquePtr(UniquePtr &&obj)
         {
@@ -23,10 +20,7 @@ namespace lab2
 
         ~UniquePtr()
         {
-            if (Ptr != nullptr)
-            {
-                delete Ptr;
-            }
+            delete Ptr;
         }
 
         UniquePtr operator=(const UniquePtr &obj) = delete;
@@ -37,10 +31,7 @@ namespace lab2
             {
                 return *this;
             }
-            if (Ptr != nullptr)
-            {
-                delete Ptr;
-            }
+            delete Ptr;
             Ptr = obj.Ptr;
             obj.Ptr = nullptr;
             return *this;
@@ -54,10 +45,7 @@ namespace lab2
 
         void reset(const T *const ptr = nullptr)
         {
-            if (Ptr != nullptr)
-            {
-                delete Ptr;
-            }
+            delete Ptr;
             Ptr = (T *)ptr;
         }
     };

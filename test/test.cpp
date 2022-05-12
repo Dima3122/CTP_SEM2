@@ -44,7 +44,7 @@ TEST(test_soundex, readData)
 {
 	lab3::soundex sd;
 	std::string str = sd.soundex_hash("hfasdsahjtq");
-	ASSERT_EQ(str, "h232");
+	ASSERT_EQ(str, "h123");
 }
 
 TEST(test_MyList, test_list)

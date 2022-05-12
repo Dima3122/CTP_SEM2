@@ -1,5 +1,5 @@
 #include <iostream>
-
+#include <atomic>
 namespace lab2
 {
     template <typename T>
@@ -7,52 +7,39 @@ namespace lab2
     {
     private:
         T *Ptr;
-        size_t *RefCount;
+        std::atomic<size_t> *RefCount;
 
         void clean()
         {
             *RefCount = *RefCount - 1;
-            if (*RefCount <= 0)
+            if (Ptr != nullptr)
             {
-                if (Ptr != nullptr)
-                {
-                    delete Ptr;
-                }
-                delete RefCount;
+                delete Ptr;
             }
+            delete RefCount;
         }
 
     public:
-        SharedPtr() 
-        {
-            Ptr = nullptr;
-            RefCount = new size_t(0);
-        }
+        SharedPtr() : Ptr(nullptr), RefCount(new size_t(0)) {}
 
-        SharedPtr(const T *const ptr)
+        SharedPtr(const T *const ptr) : Ptr((T *)ptr), RefCount(new size_t(0))
         {
-            Ptr = (T *)ptr;
-            RefCount = new size_t(0);
             if (Ptr != nullptr)
             {
                 *RefCount = 1;
             }
         }
 
-        SharedPtr(const SharedPtr &obj)
+        SharedPtr(const SharedPtr &obj) : Ptr(obj.Ptr), RefCount(obj.RefCount)
         {
-            Ptr = obj.Ptr;
-            RefCount = obj.RefCount;
             if (Ptr != nullptr)
             {
                 *RefCount = *RefCount + 1;
             }
         }
 
-        SharedPtr(const SharedPtr &&obj)
+        SharedPtr(const SharedPtr &&obj) : Ptr(obj.Ptr), RefCount(obj.RefCount)
         {
-            Ptr = obj.Ptr;
-            RefCount = obj.RefCount;
             obj.Ptr = nullptr;
             obj.RefCount = nullptr;
         }
@@ -61,12 +48,15 @@ namespace lab2
 
         SharedPtr &operator=(const SharedPtr &obj)
         {
-            clean();
-            Ptr = obj.Ptr;
-            RefCount = obj.RefCount;
-            if (Ptr != nullptr)
+            if (obj != this)
             {
-                *RefCount++;
+                clean();
+                Ptr = obj.Ptr;
+                RefCount = obj.RefCount;
+                if (RefCount != nullptr)
+                {
+                    *RefCount++;
+                }
             }
         }
 
@@ -83,7 +73,14 @@ namespace lab2
         T *operator->() { return Ptr; }
         T *get() { return Ptr; }
 
-        size_t use_count() { return *RefCount; }
+        size_t use_count() const 
+        {
+            if (RefCount == nullptr)
+            {
+                return 0;
+            }
+            return *RefCount; 
+        }
 
         bool unique()
         {

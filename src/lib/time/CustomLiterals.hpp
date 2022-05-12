@@ -4,23 +4,31 @@
 
 namespace lab1::literals
 {
-    int operator"" _D(unsigned long long day) {
-    int inSeconds;
-    inSeconds = day * 24 * 60 * 60;
-    return inSeconds;
-}
+    TimeSpan operator"" _D(unsigned long long day)
+    {
+        TimeSpan span;
+        span.set_timeSpan(day * 24 * 60 * 60);
+        return span;
+    }
 
-int operator"" _H(unsigned long long hour) {
-    int inSeconds;
-    inSeconds = hour * 60 * 60;
-    return inSeconds;
-}
+    TimeSpan operator"" _H(unsigned long long hour)
+    {
+        TimeSpan span;
+        span.set_timeSpan(hour * 60 * 60);
+        return span;
+    }
 
-int operator"" _M(unsigned long long minute) {
-    int inSeconds;
-    inSeconds = minute * 60;
-    return inSeconds;
-}
+    TimeSpan operator"" _M(unsigned long long minute)
+    {
+        TimeSpan span;
+        span.set_timeSpan(minute * 60);
+        return span;
+    }
 
-int operator"" _S(unsigned long long second) { return second; }
+    TimeSpan operator"" _S(unsigned long long second) 
+    { 
+        TimeSpan span;
+        span.set_timeSpan(second);
+        return span; 
+    }
 }

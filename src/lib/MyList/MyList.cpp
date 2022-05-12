@@ -1,4 +1,5 @@
 #include "Node.cpp"
+#include <iostream>
 
 namespace lab4
 {
@@ -19,28 +20,29 @@ namespace lab4
 		void removeAt(int index);
 		void pop_back();
 		bool check();
-		
+
 		class Iterator
 		{
 		private:
-			T* cur;
+			T *cur;
+
 		public:
-			Iterator(T* first) : cur(first){}
-			
-			T& operator+ (int n) { return *(cur + n);}
-			T& operator- (int n) { return *(cur - n);}
+			Iterator(T *first) : cur(first) {}
 
-			T& operator++ (int) { return *cur++; }
-			T& operator-- (int) { return *cur--;}
-			T& operator++ () { return *++cur;}
-			T& operator-- () { return *--cur;}
+			T &operator+(int n) { return *(cur + n); }
+			T &operator-(int n) { return *(cur - n); }
 
-			bool operator!= (const Iterator& it) {return cur != it.cur;}
-			bool operator== (const Iterator& it) {return cur == it.cur;}
-			T& operator* () {return *cur;}
-		};		
+			T &operator++(int) { return *cur++; }
+			T &operator--(int) { return *cur--; }
+			T &operator++() { return *++cur; }
+			T &operator--() { return *--cur; }
+
+			bool operator!=(const Iterator &it) { return cur != it.cur; }
+			bool operator==(const Iterator &it) { return cur == it.cur; }
+			T &operator*() { return *cur; }
+		};
 		Iterator begin() { return head; }
-		Iterator end() 
+		Iterator end()
 		{
 			if (head == nullptr)
 			{
@@ -50,9 +52,10 @@ namespace lab4
 			while (current->pNext != nullptr)
 			{
 				current = current->pNext;
-			}	
+			}
 			return current;
 		}
+
 	private:
 		int Size;
 		Node<T> *head;
@@ -60,7 +63,7 @@ namespace lab4
 
 	template <class T>
 	MyList<T>::MyList()
-	{	
+	{
 		Size = 0;
 		head = nullptr;
 	}
@@ -74,10 +77,13 @@ namespace lab4
 	template <class T>
 	void MyList<T>::pop_front()
 	{
-		Node<T> *temp = head;
-		head = head->pNext;
-		delete temp;
-		Size--;
+		if (Size != 0)
+		{
+			Node<T> *temp = head;
+			head = head->pNext;
+			delete temp;
+			Size--;
+		}
 	}
 
 	template <class T>
@@ -85,7 +91,7 @@ namespace lab4
 	{
 		if (head == nullptr)
 		{
-			head = new Node<T>(data);
+			head = std::move(new Node<T>(data));
 		}
 		else
 		{
@@ -95,7 +101,7 @@ namespace lab4
 			{
 				current = current->pNext;
 			}
-			current->pNext = new Node<T>(data);
+			current->pNext = std::move(new Node<T>(data));
 		}
 		Size++;
 	}
@@ -110,27 +116,9 @@ namespace lab4
 	}
 
 	template <class T>
-	T &MyList<T>::operator[](const int index)
-	{
-		int counter = 0;
-
-		Node<T> *current = this->head;
-
-		while (current != nullptr)
-		{
-			if (counter == index)
-			{
-				return current->data;
-			}
-			current = current->pNext;
-			counter++;
-		}
-	}
-
-	template <class T>
 	void MyList<T>::push_front(T data)
 	{
-		head = new Node<T>(data, head);
+		head = std::move(new Node<T>(data, head));
 		Size++;
 	}
 
@@ -148,7 +136,7 @@ namespace lab4
 			{
 				previous = previous->pNext;
 			}
-			Node<T> *newNode = new Node<T>(data, previous->pNext);
+			Node<T> *newNode = std::move(new Node<T>(data, previous->pNext));
 			previous->pNext = newNode;
 			Size++;
 		}
@@ -173,7 +161,7 @@ namespace lab4
 			{
 				nodeNext = nodeNext->pNext;
 			}
-			Node<T> *newNode = new Node<T>(data, previous->pNext);
+			Node<T> *newNode = std::move(new Node<T>(data, previous->pNext));
 			newNode->pNext = nodeNext;
 			previous->pNext = newNode;
 			Size++;
@@ -212,16 +200,15 @@ namespace lab4
 	{
 		int count = 0;
 		Node<T> *current = this->head;
-		while (current != nullptr)
+		while (true)
 		{
 			current = current->pNext;
 			count++;
-			if (count > 1000)
+			if (count > Size*10)
 			{
 				return true;
 			}
 		}
 		return false;
 	}
-
 }
